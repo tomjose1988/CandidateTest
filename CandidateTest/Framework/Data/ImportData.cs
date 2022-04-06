@@ -17,6 +17,8 @@ namespace Framework.Data
             records = new Dictionary<int, Record>();
         }
 
+        public int RowCount { get { return records.Count; } }
+
         public void AddCoumnHeader(int columnIndex,string columnName)
         {
             headers.Add(columnIndex,columnName);
@@ -45,6 +47,13 @@ namespace Framework.Data
             }
 
         }
+
+        public Record GetRecord(int rowIndex)
+        {
+            return records[rowIndex];
+        }
+
+        
 
     }
 }

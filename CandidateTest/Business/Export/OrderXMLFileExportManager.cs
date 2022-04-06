@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Import
+namespace Business.Export
 {
-    public class OrderCSVFileExportManager
+    public class OrderXMLFileExportManager
     {
     }
 }

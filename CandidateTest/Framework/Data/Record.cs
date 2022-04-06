@@ -21,5 +21,10 @@ namespace Framework.Data
         {
             properties.Add(property);   
         }
+
+        public Property GetProperty(string propertyName)
+        {
+            return properties.Find(p=>p.Name == propertyName);
+        }
     }
 }
