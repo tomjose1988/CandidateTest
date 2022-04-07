@@ -9,18 +9,29 @@ namespace Business.Entities
 {
     public class Item
     {
+        public Item()
+        {
+            Id=String.Empty;
+            Description=String.Empty;
+            Currency=String.Empty;
+            Quantity=String.Empty;
+            Value=String.Empty;
+            Weight=String.Empty;
+        }
+
         public string Id { get; set; }
-        [XmlAttribute("Item Description")]
+        [XmlAttribute("ItemDescription")]
         public string Description { get; set; }
-        [XmlAttribute("Item Currency")]
+        [XmlAttribute("ItemCurrency")]
         public string Currency { get; set; }
-        [XmlAttribute("Item Quantity")]
+        [XmlAttribute("ItemQuantity")]
         public string Quantity { get; set; }
-        [XmlAttribute("Item Value")]
+        [XmlAttribute("ItemValue")]
         public string Value { get; set; }
-        [XmlAttribute("Item Weight")]
+        [XmlAttribute("ItemWeight")]
         public string Weight { get; set; }
 
+        [XmlIgnore]
         public Parcel Parcel { get; set; }
         
     }

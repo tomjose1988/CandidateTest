@@ -17,8 +17,10 @@ namespace Business.Entities
             items=new List<Item>();
         }
 
-        [XmlAttribute("Parcel Code")]
+        [XmlAttribute("ParcelCode")]
         public string ParcelCode { get { return parcelCode; } set { parcelCode = value; } }
+
+        [XmlIgnore]
         public Consignment Consignment { get; set; }
 
         [XmlArray("Items")]

@@ -10,9 +10,20 @@ namespace Framework.ImportExport.File.Export
 {
     public class FileExportManager :FileImportExportManager, IFileExportManager
     {
-        public void ExportFile(byte[] fileData, string directoryPath, string fileName, string extension)
+        public virtual void ExportFile(byte[] fileData, string directoryPath, string fileName, string extension)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var filePath = directoryPath + @"\" + fileName + "." + extension;
+                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    fs.Write(fileData, 0, fileData.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

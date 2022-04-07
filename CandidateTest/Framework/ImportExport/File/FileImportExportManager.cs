@@ -32,7 +32,14 @@ namespace Framework.ImportExport.File
         {
             return Directory.EnumerateFiles(directoryPath);
         }
-
+        public bool IsDirectoryExists(string directoryPath)
+        {
+            return Directory.Exists(directoryPath);
+        }
+        public bool IsFileExists(string filePath)
+        {
+            return System.IO.File.Exists(filePath);
+        }
         public bool CreateFile(string filePath,bool overWrite=false)
         {
             if (overWrite)
@@ -41,7 +48,7 @@ namespace Framework.ImportExport.File
             }
             else
             {
-                if (!System.IO.File.Exists(filePath))
+                if (!IsFileExists(filePath))
                 {
                     System.IO.File.Create(filePath);
 
@@ -53,7 +60,7 @@ namespace Framework.ImportExport.File
         public bool DeleteFile(string filePath)
         {
             System.IO.File.Delete(filePath);
-            return System.IO.File.Exists(filePath);
+            return !IsFileExists(filePath);
         }
     }
 }

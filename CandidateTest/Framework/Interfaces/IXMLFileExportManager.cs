@@ -8,6 +8,6 @@ namespace Framework.Interfaces
 {
     public interface IXMLFileExportManager:IFileExportManager
     {
-
+        void ExportXml<T>(T data,string filePath);
     }
 }

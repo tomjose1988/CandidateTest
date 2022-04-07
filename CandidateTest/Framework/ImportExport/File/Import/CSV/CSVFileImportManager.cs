@@ -21,29 +21,32 @@ namespace Framework.ImportExport.File.Import.CSV
             if (IO.File.Exists(filePath))
             {
                 var lines=IO.File.ReadAllLines(filePath);
-                int lineIndex = 0;
-                foreach (var line in lines)
+                if (lines.Any())
                 {
-                    string[] lineData = line.Split(seperator);
-                    if (lineIndex == 0)
+                    int lineIndex = 0;
+                    var headerLine = lines[0].Split(seperator);
+                    if (isHeaderPresent)
                     {
-                        if (isHeaderPresent)
-                        {
-                            data.AddCoumnHeaders(lineData);
-                        }
-                        else
-                        {
-                            data.AddCoumnHeaders(GetDefaultColumnHeaders(lineData.Length).ToArray());
-                        }
+                        data.AddCoumnHeaders(headerLine);
                     }
                     else
                     {
-                        for(int i = 0; i < lineData.Length; i++)
-                        {
-                            data.AddRow(lineIndex,i,lineData[i],typeof(string));
-                        }
+                        data.AddCoumnHeaders(GetDefaultColumnHeaders(headerLine.Length).ToArray());
                     }
                     lineIndex++;
+                    int rowIndex = 0;
+                    for (int i=lineIndex; i<lines.Length; i++)
+                    {
+                        var line=lines[i];
+                        string[] lineData = line.Split(seperator);
+
+                        for (int j = 0; j < lineData.Length; j++)
+                        {
+                            data.AddRow(rowIndex, j, lineData[j], typeof(string));
+                        }
+                        rowIndex++;
+                    }
+
                 }
             }
             return data;

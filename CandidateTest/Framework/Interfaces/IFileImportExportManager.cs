@@ -11,6 +11,8 @@ namespace Framework.Interfaces
         FileFormat fileType { get; set; }
         string FilePath { get; set; }
         string DirectoryPath { get; set; }
+        bool IsDirectoryExists(string directoryPath);
+        bool IsFileExists(string filePath);
         bool CreateDirectory(string directoryPath);
         bool DeleteDirectory(string directoryPath,bool recursive);
         IEnumerable<string> EnumerateFiles(string directoryPath);
