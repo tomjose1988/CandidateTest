@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Framework.Interfaces
 {
-    public interface IXMLFileExportManager
+    public interface IXMLFileExportManager:IFileExportManager
     {
+
     }
 }

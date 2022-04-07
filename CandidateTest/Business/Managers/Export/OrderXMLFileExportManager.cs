@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.Interfaces;
+using Business.Interfaces;
 
-namespace Business.Export
+namespace Business.Managers.Export
 {
     public class OrderXMLFileExportManager
     {

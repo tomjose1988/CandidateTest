@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Framework.Interfaces
 {
-    public interface IFileExportManager
+    public interface IFileExportManager:IFileImportExportManager
     {
         void ExportFile(byte[] fileData,string directoryPath,string fileName,string extension);
     }

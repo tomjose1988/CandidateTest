@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.Entities;
-using Common.Interfaces;
+using Business.Entities;
+using Business.Interfaces;
 using Framework.Data;
 using Framework.ImportExport.File.Import.CSV;
 
-namespace Business.Import
+namespace Business.Managers.Import
 {
     public class OrderCSVFileImportManager : CSVFileImportManager, IOrderCSVFileImportManager
     {

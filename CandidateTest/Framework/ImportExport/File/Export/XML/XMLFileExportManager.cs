@@ -8,7 +8,7 @@ using Framework.Interfaces;
 
 namespace Framework.ImportExport.File.Export.XML
 {
-    public class XMLFileExportManager:IXMLFileExportManager
+    public class XMLFileExportManager:FileExportManager,IXMLFileExportManager
     {
 
     }

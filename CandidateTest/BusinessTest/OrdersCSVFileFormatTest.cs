@@ -1,6 +1,6 @@
 ﻿
 using Framework.Data;
-using Business.Import;
+using Business.Managers.Import;
 using NUnit.Framework;
 
 namespace BusinessTest

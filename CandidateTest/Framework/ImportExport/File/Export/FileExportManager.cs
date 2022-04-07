@@ -8,7 +8,7 @@ using Framework.Interfaces;
 
 namespace Framework.ImportExport.File.Export
 {
-    public class FileExportManager : IFileExportManager
+    public class FileExportManager :FileImportExportManager, IFileExportManager
     {
         public void ExportFile(byte[] fileData, string directoryPath, string fileName, string extension)
         {
