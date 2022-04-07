@@ -20,54 +20,58 @@ namespace Business.Import
         public OrderCollection FormatData(ImportData data)
         {
             var collection=new OrderCollection();
-
-            for(int i=0;i<data.RowCount;i++)
+            if (data != null)
             {
-                var record=data.GetRecord(i);
-                object orderNumber = record.GetProperty("Order No")?.Value;
-                var orderNo= (string)orderNumber;
-                var order = collection.GetOrder(orderNo);
-                if (order == null)
+                for (int i = 0; i < data.RowCount; i++)
                 {
-                    order = new Order();
-                    order.OrderNo = orderNo;
-                    collection.Add(order);
-                }
-                object consignmentNo= record.GetProperty("Consignment No")?.Value;
-                var conNumber = (string)consignmentNo;
-                var consignment = order.GetConsignment(conNumber);
-                if(consignment == null)
-                {
-                    consignment = new Consignment();
-                    consignment.Address1 = (string)record.GetProperty("Address 1")?.Value;
-                    consignment.Address2 = (string)record.GetProperty("Address 2")?.Value;
-                    consignment.City = (string)record.GetProperty("City")?.Value;
-                    consignment.State = (string)record.GetProperty("State")?.Value;
-                    consignment.CountryCode = (string)record.GetProperty("Country Code")?.Value;
-                    consignment.Order = order;
-                    order.Add(consignment);
-                }
-                var parcelCode = (string)record.GetProperty("Parcel Code")?.Value;
-                var parcel=consignment.GetParcel(parcelCode);
-                if (parcel == null)
-                {
-                    parcel = new Parcel();
-                    parcel.ParcelCode= (string)record.GetProperty("Parcel Code")?.Value;
-                    parcel.Consignment = consignment;
-                    consignment.AddParcel(parcel);
-                }
-                var itemDescription= (string)record.GetProperty("Item Description")?.Value;
-                var item=parcel.GetItem(itemDescription);
-                if(item == null)
-                {
-                    item=new Item();
-                    item.Description = itemDescription;
-                    item.Quantity= (string)record.GetProperty("Item Quantity")?.Value;
-                    item.Value= (string)record.GetProperty("Item Value")?.Value;
-                    item.Weight= (string)record.GetProperty("Item Weight")?.Value;
-                    item.Currency= (string)record.GetProperty("Item Currency")?.Value;
-                    item.Parcel = parcel;
-                    parcel.AddItem(item);
+                    var record = data.GetRecord(i);
+                    object orderNumber = record.GetProperty("Order No")?.Value;
+                    var orderNo = (string)orderNumber;
+                    var order = collection.GetOrder(orderNo);
+                    if (order == null)
+                    {
+                        order = new Order();
+                        order.OrderNo = orderNo;
+                        collection.AddOrder(order);
+                    }
+                    object consignmentNo = record.GetProperty("Consignment No")?.Value;
+                    var conNumber = (string)consignmentNo;
+                    var consignment = order.GetConsignment(conNumber);
+                    if (consignment == null)
+                    {
+                        consignment = new Consignment();
+                        consignment.ConsignmentNo = conNumber;
+                        consignment.ConsigneeName= (string)record.GetProperty("Consignee Name")?.Value; 
+                        consignment.Address1 = (string)record.GetProperty("Address 1")?.Value;
+                        consignment.Address2 = (string)record.GetProperty("Address 2")?.Value;
+                        consignment.City = (string)record.GetProperty("City")?.Value;
+                        consignment.State = (string)record.GetProperty("State")?.Value;
+                        consignment.CountryCode = (string)record.GetProperty("Country Code")?.Value;
+                        consignment.Order = order;
+                        order.AddConsignment(consignment);
+                    }
+                    var parcelCode = (string)record.GetProperty("Parcel Code")?.Value;
+                    var parcel = consignment.GetParcel(parcelCode);
+                    if (parcel == null)
+                    {
+                        parcel = new Parcel();
+                        parcel.ParcelCode = parcelCode;
+                        parcel.Consignment = consignment;
+                        consignment.AddParcel(parcel);
+                    }
+                    var itemDescription = (string)record.GetProperty("Item Description")?.Value;
+                    var item = parcel.GetItem(itemDescription);
+                    if (item == null)
+                    {
+                        item = new Item();
+                        item.Description = itemDescription;
+                        item.Quantity = (string)record.GetProperty("Item Quantity")?.Value;
+                        item.Value = (string)record.GetProperty("Item Value")?.Value;
+                        item.Weight = (string)record.GetProperty("Item Weight")?.Value;
+                        item.Currency = (string)record.GetProperty("Item Currency")?.Value;
+                        item.Parcel = parcel;
+                        parcel.AddItem(item);
+                    }
                 }
             }
             return collection;

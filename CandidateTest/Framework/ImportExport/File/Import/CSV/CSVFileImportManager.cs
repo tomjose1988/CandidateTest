@@ -12,7 +12,7 @@ namespace Framework.ImportExport.File.Import.CSV
 {
     public class CSVFileImportManager :FileImportManager, ICSVFileImportManager
     {
-        protected string seperator => ";";
+        protected string seperator => ",";
 
         public ImportData ImportCSVFile(string filePath, bool isHeaderPresent = true)
         {

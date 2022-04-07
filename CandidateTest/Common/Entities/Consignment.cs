@@ -26,22 +26,22 @@ namespace Common.Entities
         [XmlAttribute("Consignment No")]
         public string ConsignmentNo { get { return consignmentNo; } set { consignmentNo = value; } }
         [XmlAttribute("Consignee Name")]
-        public string ConsigneeName { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string ConsigneeName { get { return consigneeName; } set { consigneeName = value; } }
         [XmlAttribute("Address 1")]
-        public string Address1 { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string Address1 { get { return address1; } set { address1 = value; } }
         [XmlAttribute("Address 2")]
-        public string Address2 { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string Address2 { get { return address2; } set { address2 = value; } }
         [XmlAttribute("City")]
-        public string City { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string City { get { return city; } set { city = value; } }
         [XmlAttribute("State")]
-        public string State { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string State { get { return state; } set { state = value; } }
         [XmlAttribute("Country Code")]
-        public string CountryCode { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string CountryCode { get { return countryCode; } set { countryCode = value; } }
         public Order Order { get; set; }
 
         [XmlArray("Parcels")]
         [XmlArrayItem("Parcel")]
-        List<Parcel> Parcels { get { return new List<Parcel>(parcels); } }
+        public List<Parcel> Parcels { get { return new List<Parcel>(parcels); } }
 
         public Parcel GetParcel(string parcelCode)
         {

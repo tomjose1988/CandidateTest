@@ -25,7 +25,7 @@ namespace Common.Entities
         [XmlArrayItem("Consignment")]
         public List<Consignment> Consignments { get { return new List<Consignment>(consignments); } }
 
-        public void Add(Consignment consignment)
+        public void AddConsignment(Consignment consignment)
         {
             consignments.Add(consignment);
         }

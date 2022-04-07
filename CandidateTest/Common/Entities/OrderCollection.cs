@@ -17,7 +17,7 @@ namespace Common.Entities
             orderList = new List<Order>();
         }
 
-        public void Add(Order order)
+        public void AddOrder(Order order)
         {
             orderList.Add(order);
         }
@@ -29,6 +29,6 @@ namespace Common.Entities
 
         [XmlArray("Orders")]
         [XmlArrayItem("Order")]
-        public List<Order> OrderList { get; set; }
+        public List<Order> OrderList { get { return new List<Order>(orderList); } }
     }
 }

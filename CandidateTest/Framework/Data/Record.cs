@@ -17,7 +17,7 @@ namespace Framework.Data
             properties = new List<Property>();  
         }
 
-        public void Add(Property property)
+        public void AddProperty(Property property)
         {
             properties.Add(property);   
         }

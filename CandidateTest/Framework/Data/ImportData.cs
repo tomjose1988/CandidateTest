@@ -24,16 +24,18 @@ namespace Framework.Data
             headers.Add(columnIndex,columnName);
         }
 
-        public void AddRow(int rowIndex,int columnIndex,object value,Type type)
+        public void AddRow(int rowIndex,int columnIndex,object value,Type type=null)
         {
             var columnName=headers[columnIndex];
             var property=new Property() { Name = columnName, Value = value ,Type=type};
             Record recordData=null;
+            type=(type==null)?typeof(string):type;    
             if(!records.TryGetValue(rowIndex, out recordData))
             {
                 recordData = new Record(rowIndex);
+                records.Add(rowIndex, recordData);
             }
-            recordData.Add(property);
+            recordData.AddProperty(property);
         }
 
         public void AddCoumnHeaders(string[] columnNames)

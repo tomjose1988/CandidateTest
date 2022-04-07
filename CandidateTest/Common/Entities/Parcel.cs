@@ -23,7 +23,7 @@ namespace Common.Entities
 
         [XmlArray("Items")]
         [XmlArrayItem("Item")]
-        List<Item> Items { get { return new List<Item>(items); } }
+        public List<Item> Items { get { return new List<Item>(items); } }
 
         public Item GetItem(string itemDescription)
         {
