@@ -9,7 +9,6 @@ namespace Business.Entities
 {
     public class Parcel
     {
-        private string parcelCode;
         private List<Item> items;
 
         public Parcel()
@@ -18,7 +17,7 @@ namespace Business.Entities
         }
 
         [XmlAttribute("ParcelCode")]
-        public string ParcelCode { get { return parcelCode; } set { parcelCode = value; } }
+        public string ParcelCode { get; set; }
 
         [XmlIgnore]
         public Consignment Consignment { get; set; }

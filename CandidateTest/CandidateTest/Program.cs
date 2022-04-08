@@ -9,6 +9,6 @@ Console.WriteLine("Start export!");
 IOrderCSVFileImportManager importManager = new OrderCSVFileImportManager();
 IOrderXmlFileExportManager exportManager=new OrderXMLFileExportManager();
 
-OrderManager manager = new OrderManager(importManager, exportManager);
+OrderImportExportManager manager = new OrderImportExportManager(importManager, exportManager);
 manager.StartExport(@"D:\CandidateWork\Input", @"D:\CandidateWork\Output");
 Console.ReadLine();

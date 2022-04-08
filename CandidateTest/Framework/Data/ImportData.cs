@@ -44,7 +44,7 @@ namespace Framework.Data
             {
                 for (int i = 0; i < columnNames.Length; i++)
                 {
-                    AddCoumnHeader(i, columnNames[i]);
+                    AddCoumnHeader(i, columnNames[i].Trim());
                 }
             }
 

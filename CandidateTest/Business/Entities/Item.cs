@@ -11,12 +11,12 @@ namespace Business.Entities
     {
         public Item()
         {
-            Id=String.Empty;
-            Description=String.Empty;
-            Currency=String.Empty;
-            Quantity=String.Empty;
-            Value=String.Empty;
-            Weight=String.Empty;
+            //Id=String.Empty;
+            //Description=String.Empty;
+            //Currency=String.Empty;
+            //Quantity=String.Empty;
+            //Value=String.Empty;
+            //Weight=String.Empty;
         }
 
         public string Id { get; set; }

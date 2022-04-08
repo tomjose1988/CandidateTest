@@ -9,11 +9,11 @@ using Business.Interfaces;
 
 namespace Business.Managers
 {
-    public class OrderManager
+    public class OrderImportExportManager
     {
         private IOrderCSVFileImportManager orderCSVFileImportManager;
         private IOrderXmlFileExportManager orderCSVFileExportManager;
-        public OrderManager(IOrderCSVFileImportManager importManager,IOrderXmlFileExportManager exportManager)
+        public OrderImportExportManager(IOrderCSVFileImportManager importManager,IOrderXmlFileExportManager exportManager)
         {
             this.orderCSVFileImportManager = importManager;
             this.orderCSVFileExportManager = exportManager;
