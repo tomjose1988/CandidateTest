@@ -9,7 +9,7 @@ using Framework.Interfaces;
 
 namespace Business.Interfaces
 {
-    public interface IOrderCSVFileImportManager:ICSVFileImportManager
+    public interface IOrderImportManager:ICSVFileImportManager
     {
         OrderCollection FormatData(ImportData data);
     }

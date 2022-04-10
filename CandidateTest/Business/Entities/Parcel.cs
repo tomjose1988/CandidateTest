@@ -9,6 +9,7 @@ namespace Business.Entities
 {
     public class Parcel
     {
+
         private List<Item> items;
 
         public Parcel()
@@ -34,6 +35,26 @@ namespace Business.Entities
         public void AddItem(Item item)
         {
             items.Add(item);
+        }
+
+        public double GetTotalValue()
+        {
+            double total = 0;
+            foreach (Item item in items)
+            {
+                total += item.Value;
+            }
+            return total;
+        }
+
+        public double GetTotalWeight()
+        {
+            double total = 0;
+            foreach (Item item in items)
+            {
+                total += item.Weight;
+            }
+            return total;
         }
     }
 }

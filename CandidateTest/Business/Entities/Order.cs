@@ -18,8 +18,34 @@ namespace Business.Entities
             consignments = new List<Consignment>();
         }
         
-        [XmlAttribute("Order No")]
+        [XmlAttribute("OrderNo")]
         public string OrderNo { get { return orderNo; } set { orderNo = value; } }
+
+        [XmlAttribute("TotalValue")]
+        public double TotalValue 
+        { 
+            get 
+            {
+                return GetTotalValue(); 
+            }
+            set
+            {
+
+            }
+        }
+
+        [XmlAttribute("TotalWeight")]
+        public double TotalWeight
+        {
+            get
+            {
+                return GetTotalWeight();
+            }
+            set
+            {
+
+            }
+        }
 
         [XmlArray("Consignments")]
         [XmlArrayItem("Consignment")]
@@ -33,6 +59,26 @@ namespace Business.Entities
         public Consignment GetConsignment(string consignmentNo)
         {
            return this.consignments.Find(c => c.ConsignmentNo == consignmentNo);
+        }
+
+        private double GetTotalValue()
+        {
+            double total = 0;
+            foreach (var consignment in this.consignments)
+            {
+                total += consignment.GetTotalValue();
+            }
+            return total;
+        }
+
+        private double GetTotalWeight()
+        {
+            double total = 0;
+            foreach (var consignment in this.consignments)
+            {
+                total += consignment.GetTotalWeight();
+            }
+            return total;
         }
 
     }

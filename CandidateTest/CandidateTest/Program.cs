@@ -6,9 +6,12 @@ using Business.Managers.Export;
 
 Console.WriteLine("Start export!");
 
-IOrderCSVFileImportManager importManager = new OrderCSVFileImportManager();
-IOrderXmlFileExportManager exportManager=new OrderXMLFileExportManager();
+IOrderImportManager importManager = new OrderCSVFileImportManager();
+IOrderExportManager exportManager=new OrderXMLFileExportManager();
 
-OrderImportExportManager manager = new OrderImportExportManager(importManager, exportManager);
-manager.StartExport(@"D:\CandidateWork\Input", @"D:\CandidateWork\Output");
+IOrderManager manager = new OrderManager(importManager, exportManager);
+manager.StartProcessing(@"D:\CandidateWork\Input", @"D:\CandidateWork\Output");
+Console.WriteLine("Processing input files...\n\n Press enter to exit processing.");
+Console.ReadLine();
+manager.EndProcessing();
 Console.ReadLine();

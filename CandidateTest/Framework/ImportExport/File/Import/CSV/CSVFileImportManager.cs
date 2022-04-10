@@ -14,7 +14,7 @@ namespace Framework.ImportExport.File.Import.CSV
     {
         protected string seperator => ",";
 
-        public ImportData ImportCSVFile(string filePath, bool isHeaderPresent = true)
+        public virtual ImportData ImportCSVFile(string filePath, bool isHeaderPresent = true)
         {
             ImportData data = new ImportData();
 

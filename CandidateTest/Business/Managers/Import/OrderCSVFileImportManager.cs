@@ -10,11 +10,28 @@ using Framework.ImportExport.File.Import.CSV;
 
 namespace Business.Managers.Import
 {
-    public class OrderCSVFileImportManager : CSVFileImportManager, IOrderCSVFileImportManager
+    public class OrderCSVFileImportManager : CSVFileImportManager, IOrderImportManager
     {
         public OrderCSVFileImportManager()
         {
 
+        }
+        public override ImportData ImportCSVFile(string filePath, bool isHeaderPresent = true)
+        {
+            int retry = 0;
+            while (retry < 5)
+            {
+                try
+                {
+                    return base.ImportCSVFile(filePath, isHeaderPresent);
+                }
+                catch (IOException ex)
+                {
+                    Thread.Sleep(10);
+                    retry++;
+                }
+            }
+            return null;
         }
 
         public OrderCollection FormatData(ImportData data)
@@ -66,8 +83,16 @@ namespace Business.Managers.Import
                         item = new Item();
                         item.Description = itemDescription;
                         item.Quantity = (string)record.GetProperty("Item Quantity")?.Value;
-                        item.Value = (string)record.GetProperty("Item Value")?.Value;
-                        item.Weight = (string)record.GetProperty("Item Weight")?.Value;
+                        var itemVal= (string)record.GetProperty("Item Value")?.Value;
+                        double itemValue = 0;
+                        double.TryParse(itemVal, out itemValue);
+                        item.Value = itemValue;
+
+                        var itemWgt = (string)record.GetProperty("Item Weight")?.Value;
+                        double itemWeight = 0;
+                        double.TryParse(itemWgt, out itemWeight);
+                        item.Weight = itemWeight;
+
                         item.Currency = (string)record.GetProperty("Item Currency")?.Value;
                         item.Parcel = parcel;
                         parcel.AddItem(item);

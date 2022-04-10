@@ -55,5 +55,25 @@ namespace Business.Entities
             this.parcels.Add(parcel);
         }
 
+        public double GetTotalValue()
+        {
+            double total = 0;
+            foreach (Parcel parcel in this.parcels)
+            {
+                total+=parcel.GetTotalValue();
+            }
+            return total;
+        }
+
+        public double GetTotalWeight()
+        {
+            double total = 0;
+            foreach (Parcel parcel in this.parcels)
+            {
+                total += parcel.GetTotalWeight();
+            }
+            return total;
+        }
+
     }
 }

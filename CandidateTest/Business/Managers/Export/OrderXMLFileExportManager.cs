@@ -9,14 +9,14 @@ using Framework.ImportExport.File.Export.XML;
 
 namespace Business.Managers.Export
 {
-    public class OrderXMLFileExportManager :XMLFileExportManager, IOrderXmlFileExportManager
+    public class OrderXMLFileExportManager :XMLFileExportManager, IOrderExportManager
     {
         public OrderXMLFileExportManager()
         {
 
         }
 
-        public bool ExportXmlData(OrderCollection orders, string directoryPath, string fileName)
+        public bool ExportToFile(OrderCollection orders, string directoryPath, string fileName)
         {
             if (!IsDirectoryExists(directoryPath))
             {

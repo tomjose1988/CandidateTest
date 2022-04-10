@@ -9,8 +9,8 @@ using Framework.ImportExport.File.Export;
 
 namespace Business.Interfaces
 {
-    public interface IOrderXmlFileExportManager:IXMLFileExportManager
+    public interface IOrderExportManager:IXMLFileExportManager
     {
-        bool ExportXmlData(OrderCollection orders, string directoryPath,string fileName);
+        bool ExportToFile(OrderCollection orders, string directoryPath,string fileName);
     }
 }
