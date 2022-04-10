@@ -82,7 +82,13 @@ namespace Business.Managers.Import
                     {
                         item = new Item();
                         item.Description = itemDescription;
-                        item.Quantity = (string)record.GetProperty("Item Quantity")?.Value;
+
+                        var itemQty = (string)record.GetProperty("Item Quantity")?.Value;
+                        int itemQuantity = 0;
+                        int.TryParse(itemQty, out itemQuantity);
+                        item.Quantity = itemQuantity;
+
+
                         var itemVal= (string)record.GetProperty("Item Value")?.Value;
                         double itemValue = 0;
                         double.TryParse(itemVal, out itemValue);

@@ -11,22 +11,23 @@ namespace Business.Managers
 {
     public class OrderManager:IOrderManager
     {
-        private string _outputDirectory;
-        private FileSystemWatcher _watcher;
-        private IOrderImportManager _orderImportManager;
-        private IOrderExportManager _orderExportManager;
-        private List<string> processedInputFiles;
-        private bool continueProcessing;
+        private string outputDirectory;
+        private FileSystemWatcher watcher;
+        private IOrderImportManager orderImportManager;
+        private IOrderExportManager orderExportManager;
         private object lockObj=new object();
+        private bool continueProcessing=false;
+
         public OrderManager(IOrderImportManager importManager,IOrderExportManager exportManager)
         {
-            this._outputDirectory=string.Empty;
-            this.continueProcessing = false;
-            this.processedInputFiles = new List<string>();
-            this._orderImportManager = importManager;
-            this._orderExportManager = exportManager;
+            this.outputDirectory=string.Empty;
+            this.orderImportManager = importManager;
+            this.orderExportManager = exportManager;
         }
 
+        /// <summary>
+        /// Used to end processing
+        /// </summary>
         public void EndProcessing()
         {
             try
@@ -34,6 +35,8 @@ namespace Business.Managers
                 lock (lockObj)
                 {
                     this.continueProcessing = false;
+                    if(this.watcher!=null)
+                        this.watcher.Dispose();
                 }
             }
             catch (Exception ex)
@@ -46,11 +49,12 @@ namespace Business.Managers
         {
             try
             {
-                this._outputDirectory= outputDirectory;
-                this._watcher = new FileSystemWatcher(inputDirectory);
-                this._watcher.Created += this.OnCreated;
-                this._watcher.EnableRaisingEvents = true;
-                var files=this._orderImportManager.EnumerateFiles(inputDirectory);
+                this.outputDirectory= outputDirectory;
+                this.continueProcessing=true;
+                this.watcher = new FileSystemWatcher(inputDirectory);
+                this.watcher.Created += this.OnCreated;
+                this.watcher.EnableRaisingEvents = true;
+                var files=this.orderImportManager.EnumerateFiles(inputDirectory);
                 ProcessFiles(files.ToList());
             }
             catch (Exception ex)
@@ -86,12 +90,14 @@ namespace Business.Managers
             {
                 lock (this.lockObj)
                 {
-                    var importedData = this._orderImportManager.ImportCSVFile(filePath);
-                    var formattedData = this._orderImportManager.FormatData(importedData);
-                    var inputFileName = ParseInputFileName(filePath);
-                    var outputFileName = inputFileName + "_Output_" + DateTime.Now.Ticks.ToString();
-                    this._orderExportManager.ExportToFile(formattedData, this._outputDirectory, outputFileName);
-                    this.processedInputFiles.Add(filePath);
+                    if (this.continueProcessing)
+                    {
+                        var importedData = this.orderImportManager.ImportCSVFile(filePath);
+                        var formattedData = this.orderImportManager.FormatData(importedData);
+                        var inputFileName = ParseInputFileName(filePath);
+                        var outputFileName = inputFileName + "_Output_" + DateTime.Now.Ticks.ToString();
+                        this.orderExportManager.ExportToFile(formattedData, this.outputDirectory, outputFileName);
+                    }
                 }
             }
             catch (Exception ex)

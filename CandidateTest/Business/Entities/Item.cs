@@ -33,7 +33,7 @@ namespace Business.Entities
             }
         }
         [XmlAttribute("ItemQuantity")]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
         [XmlAttribute("ItemValue")]
         public double Value { get; set; }
         [XmlAttribute("ItemWeight")]

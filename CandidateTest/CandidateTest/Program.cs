@@ -10,7 +10,10 @@ IOrderImportManager importManager = new OrderCSVFileImportManager();
 IOrderExportManager exportManager=new OrderXMLFileExportManager();
 
 IOrderManager manager = new OrderManager(importManager, exportManager);
+
 manager.StartProcessing(@"D:\CandidateWork\Input", @"D:\CandidateWork\Output");
+
+
 Console.WriteLine("Processing input files...\n\n Press enter to exit processing.");
 Console.ReadLine();
 manager.EndProcessing();

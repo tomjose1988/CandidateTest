@@ -16,7 +16,7 @@ namespace Business.Managers.Export
 
         }
 
-        public bool ExportToFile(OrderCollection orders, string directoryPath, string fileName)
+        public virtual bool ExportToFile(OrderCollection orders, string directoryPath, string fileName)
         {
             if (!IsDirectoryExists(directoryPath))
             {
