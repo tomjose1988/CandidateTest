@@ -10,11 +10,11 @@ namespace Business.Entities
     public class Parcel
     {
 
-        private List<Item> items;
+        private List<Item> _items;
 
         public Parcel()
         {
-            items=new List<Item>();
+            this._items=new List<Item>();
         }
 
         [XmlAttribute("ParcelCode")]
@@ -25,22 +25,22 @@ namespace Business.Entities
 
         [XmlArray("Items")]
         [XmlArrayItem("Item")]
-        public List<Item> Items { get { return new List<Item>(items); } }
+        public List<Item> Items { get { return new List<Item>(this._items); } }
 
         public Item GetItem(string itemDescription)
         {
-            return items.FirstOrDefault(x => x.Description == itemDescription);
+            return this._items.FirstOrDefault(x => x.Description == itemDescription);
         }
 
         public void AddItem(Item item)
         {
-            items.Add(item);
+            this._items.Add(item);
         }
 
         public double GetTotalValue()
         {
             double total = 0;
-            foreach (Item item in items)
+            foreach (Item item in _items)
             {
                 total += item.Value;
             }
@@ -50,7 +50,7 @@ namespace Business.Entities
         public double GetTotalWeight()
         {
             double total = 0;
-            foreach (Item item in items)
+            foreach (Item item in _items)
             {
                 total += item.Weight;
             }

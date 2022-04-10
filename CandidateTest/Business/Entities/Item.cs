@@ -9,10 +9,10 @@ namespace Business.Entities
 {
     public class Item
     {
-        private string currency;
+        private string _currency;
         public Item()
         {
-            this.currency = "GBP";
+            this._currency = "GBP";
         }
 
         [XmlAttribute("ItemDescription")]
@@ -22,13 +22,13 @@ namespace Business.Entities
         {
             get
             {
-                return this.currency;
+                return this._currency;
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    this.currency = value;
+                    this._currency = value;
                 }
             }
         }

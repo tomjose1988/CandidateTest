@@ -28,9 +28,19 @@ namespace Framework.ImportExport.File
             return !Directory.Exists(directoryPath);
         }
 
-        public IEnumerable<string> EnumerateFiles(string directoryPath)
+        public List<string> EnumerateFiles(string directoryPath)
         {
-            return Directory.EnumerateFiles(directoryPath);
+            List<string> files = new List<string>();
+
+            var result= Directory.EnumerateFiles(directoryPath);
+            if (result != null)
+            {
+                foreach (var item in result)
+                {
+                    files.Add(item);
+                }
+            }
+            return files;
         }
         public bool IsDirectoryExists(string directoryPath)
         {
@@ -62,5 +72,47 @@ namespace Framework.ImportExport.File
             System.IO.File.Delete(filePath);
             return !IsFileExists(filePath);
         }
+
+        public string GetFileName(string filePath)
+        {
+            var fileNameWithExtension = Path.GetFileName(filePath);
+            fileNameWithExtension.Replace(".", "_");
+            var fileName = fileNameWithExtension.Replace(".", "_");
+            return fileName;
+        }
+
+        /// <summary>
+        /// returns a list of moved sourceFilePaths.
+        /// </summary>
+        /// <param name="inputFilePaths"></param>
+        /// <param name="outputDirectory"></param>
+        /// <returns></returns>
+        public List<string> MoveFiles(List<string> sourceFilePaths, string outputDirectory)
+        {
+            List<string> movedFiles = new List<string>();
+            foreach (var inputFilePath in sourceFilePaths)
+            {
+                if (IsFileExists(inputFilePath))
+                {
+                    var fileNameWithExtension= Path.GetFileName(inputFilePath);
+                    var outputFilePath=Path.Combine(outputDirectory, fileNameWithExtension);
+                    try
+                    {
+                        System.IO.File.Move(inputFilePath, outputFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
+                    if (!IsFileExists(inputFilePath))
+                    {
+                        movedFiles.Add(inputFilePath);
+                    }
+                }
+            }
+            return movedFiles;
+        }
+
+
     }
 }

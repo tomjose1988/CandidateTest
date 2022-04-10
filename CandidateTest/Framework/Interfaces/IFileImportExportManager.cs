@@ -15,8 +15,10 @@ namespace Framework.Interfaces
         bool IsFileExists(string filePath);
         bool CreateDirectory(string directoryPath);
         bool DeleteDirectory(string directoryPath,bool recursive);
-        IEnumerable<string> EnumerateFiles(string directoryPath);
+        List<string> EnumerateFiles(string directoryPath);
         bool CreateFile(string filePath, bool overWrite = false);
         bool DeleteFile(string filePath);
+        string GetFileName(string filePath);
+        List<string> MoveFiles(List<string> sourceFilePaths, string outputDirectory);
     }
 }

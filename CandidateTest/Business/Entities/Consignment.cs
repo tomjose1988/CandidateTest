@@ -9,56 +9,56 @@ namespace Business.Entities
 {
     public class Consignment
     {
-        private string consignmentNo;
-        private string consigneeName;
-        private string address1;
-        private string address2;
-        private string city;
-        private string state;
-        private string countryCode;
-        private List<Parcel> parcels;
+        private string _consignmentNo;
+        private string _consigneeName;
+        private string _address1;
+        private string _address2;
+        private string _city;
+        private string _state;
+        private string _countryCode;
+        private List<Parcel> _parcels;
 
         public Consignment()
         {
-            parcels = new List<Parcel>();
+            this._parcels = new List<Parcel>();
         }
 
         [XmlAttribute("ConsignmentNo")]
-        public string ConsignmentNo { get { return consignmentNo; } set { consignmentNo = value; } }
+        public string ConsignmentNo { get { return this._consignmentNo; } set { this._consignmentNo = value; } }
         [XmlAttribute("ConsigneeName")]
-        public string ConsigneeName { get { return consigneeName; } set { consigneeName = value; } }
+        public string ConsigneeName { get { return this._consigneeName; } set { this._consigneeName = value; } }
         [XmlAttribute("Address1")]
-        public string Address1 { get { return address1; } set { address1 = value; } }
+        public string Address1 { get { return this._address1; } set { this._address1 = value; } }
         [XmlAttribute("Address2")]
-        public string Address2 { get { return address2; } set { address2 = value; } }
+        public string Address2 { get { return this._address2; } set { this._address2 = value; } }
         [XmlAttribute("City")]
-        public string City { get { return city; } set { city = value; } }
+        public string City { get { return this._city; } set { this._city = value; } }
         [XmlAttribute("State")]
-        public string State { get { return state; } set { state = value; } }
+        public string State { get { return this._state; } set { this._state = value; } }
         [XmlAttribute("CountryCode")]
-        public string CountryCode { get { return countryCode; } set { countryCode = value; } }
+        public string CountryCode { get { return this._countryCode; } set { this._countryCode = value; } }
 
         [XmlIgnore]
         public Order Order { get; set; }
 
         [XmlArray("Parcels")]
         [XmlArrayItem("Parcel")]
-        public List<Parcel> Parcels { get { return new List<Parcel>(parcels); } }
+        public List<Parcel> Parcels { get { return new List<Parcel>(this._parcels); } }
 
         public Parcel GetParcel(string parcelCode)
         {
-            return parcels.Find(p=>p.ParcelCode==parcelCode);
+            return this._parcels.Find(p=>p.ParcelCode==parcelCode);
         }
 
         public void AddParcel(Parcel parcel)
         {
-            this.parcels.Add(parcel);
+            this._parcels.Add(parcel);
         }
 
         public double GetTotalValue()
         {
             double total = 0;
-            foreach (Parcel parcel in this.parcels)
+            foreach (Parcel parcel in this._parcels)
             {
                 total+=parcel.GetTotalValue();
             }
@@ -68,7 +68,7 @@ namespace Business.Entities
         public double GetTotalWeight()
         {
             double total = 0;
-            foreach (Parcel parcel in this.parcels)
+            foreach (Parcel parcel in this._parcels)
             {
                 total += parcel.GetTotalWeight();
             }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Business.Interfaces
 {
-    public interface IOrderManager
+    public interface IManager
     {
-        void StartProcessing(string inputDirectory, string outputDirectory);
+        void StartProcessing();
 
         void EndProcessing();
     }

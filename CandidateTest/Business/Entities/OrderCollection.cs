@@ -10,25 +10,25 @@ namespace Business.Entities
     [XmlRoot("Order Collection")]
     public class OrderCollection
     {
-        private List<Order> orderList;
+        private List<Order> _orderList;
 
         public OrderCollection()
         {
-            orderList = new List<Order>();
+            this._orderList = new List<Order>();
         }
 
         public void AddOrder(Order order)
         {
-            orderList.Add(order);
+            this._orderList.Add(order);
         }
 
         public Order GetOrder(string orderNumber)
         {
-            return orderList.Find(o=>o.OrderNo == orderNumber);
+            return this._orderList.Find(o=>o.OrderNo == orderNumber);
         }
 
         [XmlArray("Orders")]
         [XmlArrayItem("Order")]
-        public List<Order> OrderList { get { return new List<Order>(orderList); } }
+        public List<Order> OrderList { get { return new List<Order>(this._orderList); } }
     }
 }

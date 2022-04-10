@@ -3,18 +3,25 @@ using Business.Interfaces;
 using Business.Managers;
 using Business.Managers.Import;
 using Business.Managers.Export;
+using Microsoft.Extensions.DependencyInjection;
+using CandidateTest;
+using Microsoft.Extensions.Configuration;
 
-Console.WriteLine("Start export!");
+IConfiguration configuration = null;
+var path = Path.Combine(Environment.CurrentDirectory, "AppSettings.json");
+var configurationBuilder = new ConfigurationBuilder().AddJsonFile(path);
+configuration=configurationBuilder.Build();
+                                
+var services = new ServiceCollection();
+services.AddSingleton<IConfiguration>(configuration)
+    .AddSingleton<IManager, OrderManager>()
+    .AddSingleton<IOrderImportManager, OrderCSVFileImportManager>()
+    .AddSingleton<IOrderExportManager, OrderXMLFileExportManager>()
+    .AddSingleton<Service,Service>()
+    .BuildServiceProvider().GetService<Service>().StartService();
 
-IOrderImportManager importManager = new OrderCSVFileImportManager();
-IOrderExportManager exportManager=new OrderXMLFileExportManager();
-
-IOrderManager manager = new OrderManager(importManager, exportManager);
-
-manager.StartProcessing(@"D:\CandidateWork\Input", @"D:\CandidateWork\Output");
 
 
-Console.WriteLine("Processing input files...\n\n Press enter to exit processing.");
-Console.ReadLine();
-manager.EndProcessing();
-Console.ReadLine();
+
+
+

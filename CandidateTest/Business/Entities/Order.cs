@@ -10,16 +10,16 @@ namespace Business.Entities
     public class Order
     {
 
-        private string orderNo;
-        private List<Consignment> consignments;
+        private string _orderNo;
+        private List<Consignment> _consignments;
 
         public Order()
         {
-            consignments = new List<Consignment>();
+            this._consignments = new List<Consignment>();
         }
         
         [XmlAttribute("OrderNo")]
-        public string OrderNo { get { return orderNo; } set { orderNo = value; } }
+        public string OrderNo { get { return this._orderNo; } set { this._orderNo = value; } }
 
         [XmlAttribute("TotalValue")]
         public double TotalValue 
@@ -49,22 +49,22 @@ namespace Business.Entities
 
         [XmlArray("Consignments")]
         [XmlArrayItem("Consignment")]
-        public List<Consignment> Consignments { get { return new List<Consignment>(consignments); } }
+        public List<Consignment> Consignments { get { return new List<Consignment>(this._consignments); } }
 
         public void AddConsignment(Consignment consignment)
         {
-            consignments.Add(consignment);
+            this._consignments.Add(consignment);
         }
 
         public Consignment GetConsignment(string consignmentNo)
         {
-           return this.consignments.Find(c => c.ConsignmentNo == consignmentNo);
+           return this._consignments.Find(c => c.ConsignmentNo == consignmentNo);
         }
 
         private double GetTotalValue()
         {
             double total = 0;
-            foreach (var consignment in this.consignments)
+            foreach (var consignment in this._consignments)
             {
                 total += consignment.GetTotalValue();
             }
@@ -74,7 +74,7 @@ namespace Business.Entities
         private double GetTotalWeight()
         {
             double total = 0;
-            foreach (var consignment in this.consignments)
+            foreach (var consignment in this._consignments)
             {
                 total += consignment.GetTotalWeight();
             }
