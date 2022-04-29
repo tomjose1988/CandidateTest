@@ -8,6 +8,6 @@ namespace Framework.Interfaces
 {
     public interface IFileExportManager:IFileImportExportManager
     {
-        void ExportFile(byte[] fileData,string directoryPath,string fileName,string extension);
+        string ExportToFile<T>(T data, string directoryPath, string fileNameWithOutExtension);
     }
 }

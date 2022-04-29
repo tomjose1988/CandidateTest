@@ -7,34 +7,36 @@ using Business.Entities;
 using Business.Interfaces;
 using Framework.Data;
 using Framework.ImportExport.File.Import.CSV;
+using Framework.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Business.Managers.Import
 {
-    public class OrderCSVFileImportManager : CSVFileImportManager, IOrderImportManager
+    public class OrderFileImportManager: IOrderImportManager
     {
-        public OrderCSVFileImportManager()
-        {
 
-        }
-        public override ImportData ImportCSVFile(string filePath, bool isHeaderPresent = true)
+        private object _lockObj = new object();
+        private IFileImportManager _fileImportManager;
+        private string _inputDirectory;
+        private string _inputArchiveDirectory;
+        private int _archiveThreshold;
+        private List<string> _processedInputFiles;
+        private List<string> _currentlyQueuedFiles;
+
+        public OrderFileImportManager(IFileImportManager fileImportManager, IConfiguration configuration)
         {
-            int retry = 0;
-            while (retry < 5)
-            {
-                try
-                {
-                    return base.ImportCSVFile(filePath, isHeaderPresent);
-                }
-                catch (IOException ex)
-                {
-                    Thread.Sleep(10);
-                    retry++;
-                }
-            }
-            return null;
+            this._inputDirectory = configuration.GetSection("inputDirectory").Value;
+            this._inputArchiveDirectory = configuration.GetSection("inputArchiveDirectory").Value;
+            var threshold = configuration.GetSection("inputArchiveThreshold").Value;
+            int.TryParse(threshold, out this._archiveThreshold);
+            this._fileImportManager= fileImportManager;
+            //this._watcher = new FileSystemWatcher(this._inputDirectory);
+            //this._watcher.Created += this.OnCreated;
+            this._currentlyQueuedFiles = new List<string>();
+            this._processedInputFiles = new List<string>();
         }
 
-        public OrderCollection FormatData(ImportData data)
+        public OrderCollection FormatOrderData(ImportData data)
         {
             var collection=new OrderCollection();
             if (data != null)
@@ -130,6 +132,72 @@ namespace Business.Managers.Import
             template.Add("Description", "Item Description");
             template.Add("Currency", "Item Currency");
             return template;
+        }
+
+        public ImportData ImportOrderData(ItemKey key)
+        {
+            var filePath = key.Value;
+            var data=this._fileImportManager.ImportFile(filePath);
+            return data;
+        }
+
+        public void AddProcessed(ItemKey key)
+        {
+            AddProcessedInputFile(key.Value);
+            CheckAndArchive();
+        }
+
+        public List<ItemKey> GetImportItemKeys()
+        {
+            var items = new List<ItemKey>();
+            FillFileQueue();
+            foreach (var file in this._currentlyQueuedFiles)
+            {
+                var item = new ItemKey { Value = file };
+                items.Add(item);
+            }
+            return items;
+        }
+
+
+        private void FillFileQueue()
+        {
+            var files = this._fileImportManager.EnumerateFiles(this._inputDirectory);
+            foreach (var file in files)
+            {
+                AddFile(file);
+            }
+        }
+
+
+        private void AddFile(string file)
+        {
+            if (!this._currentlyQueuedFiles.Contains(file) && !this._processedInputFiles.Contains(file))
+            {
+                this._currentlyQueuedFiles.Add(file);
+            }
+        }
+
+        private void CheckAndArchive()
+        {
+            if (this._processedInputFiles.Count == this._archiveThreshold)
+            {
+                if (!this._fileImportManager.IsDirectoryExists(this._inputArchiveDirectory))
+                {
+                    this._fileImportManager.CreateDirectory(this._inputArchiveDirectory);
+                }
+                var movedFiles = this._fileImportManager.MoveFiles(this._processedInputFiles, this._inputArchiveDirectory);
+                foreach (var file in movedFiles)
+                {
+                    this._processedInputFiles.Remove(file);
+                }
+            }
+        }
+
+        private void AddProcessedInputFile(string file)
+        {
+            this._currentlyQueuedFiles.Remove(file);
+            this._processedInputFiles.Add(file);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace FrameworkTests
         public void InportData_WithInValidFile_ReturnsEmptyImportData()
         {
             var csvFileImportManager = new CSVFileImportManager();
-            var importData = csvFileImportManager.ImportCSVFile(@"..\invalid");
+            var importData = csvFileImportManager.ImportFile(@"..\invalid");
             Assert.IsNotNull(importData);
         }
 
@@ -23,7 +23,7 @@ namespace FrameworkTests
         public void InportData_WithValidFile_ReturnsNonEmptyImportData()
         {
             var csvFileImportManager = new CSVFileImportManager();
-            var importData = csvFileImportManager.ImportCSVFile(@"..\..\..\TestData\SampleData.csv");
+            var importData = csvFileImportManager.ImportFile(@"..\..\..\TestData\SampleData.csv");
             Assert.IsNotNull(importData);
             Assert.That(importData.RowCount, Is.EqualTo(5));
         }

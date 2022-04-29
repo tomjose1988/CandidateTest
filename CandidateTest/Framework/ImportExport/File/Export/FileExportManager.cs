@@ -8,9 +8,9 @@ using Framework.Interfaces;
 
 namespace Framework.ImportExport.File.Export
 {
-    public class FileExportManager :FileImportExportManager, IFileExportManager
+    public abstract class FileExportManager :FileImportExportManager, IFileExportManager
     {
-        public virtual void ExportFile(byte[] fileData, string directoryPath, string fileName, string extension)
+        protected virtual void ExportFile(byte[] fileData, string directoryPath, string fileName, string extension)
         {
             try
             {
@@ -25,5 +25,7 @@ namespace Framework.ImportExport.File.Export
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
+
+        public abstract string ExportToFile<T>(T data, string directoryPath, string fileNameWithOutExtension);
     }
 }

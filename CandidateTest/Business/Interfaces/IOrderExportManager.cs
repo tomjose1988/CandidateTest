@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Business.Entities;
 using Framework.Interfaces;
 using Framework.ImportExport.File.Export;
+using Framework.Data;
 
 namespace Business.Interfaces
 {
-    public interface IOrderExportManager:IXMLFileExportManager
+    public interface IOrderExportManager
     {
-        bool ExportToFile(OrderCollection orders, string directoryPath,string fileName);
+        bool ExportOrders(OrderCollection orders,ItemKey key);
     }
 }

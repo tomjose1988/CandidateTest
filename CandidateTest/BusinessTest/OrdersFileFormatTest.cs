@@ -1,19 +1,34 @@
 ﻿
 using Framework.Data;
 using Business.Managers.Import;
+using Moq;
 using NUnit.Framework;
+using Business.Interfaces;
+using Framework.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessTest
 {
     [TestFixture]
-    public class OrdersCSVFileFormatTest
+    public class OrdersFileFormatTest
     {
+        private IOrderImportManager manager;
+        private IFileImportManager fileImportManager;
+        private IConfiguration configuration;
         private ImportData data;
 
         [SetUp]
         public void SetUp()
         {
-            data=new ImportData();
+            var mockImportManager = new Mock<IFileImportManager>();
+            var mockConfiguration = new Mock<IConfiguration>();
+            mockConfiguration.Setup(conf => conf.GetSection("inputDirectory").Value).Returns("");
+            mockConfiguration.Setup(conf => conf.GetSection("inputArchiveDirectory").Value).Returns("");
+            mockConfiguration.Setup(conf => conf.GetSection("inputArchiveThreshold").Value).Returns("5");
+            fileImportManager= mockImportManager.Object;
+            configuration= mockConfiguration.Object;
+            manager = new OrderFileImportManager(fileImportManager, configuration);
+            data =new ImportData();
             data.AddCoumnHeader(0, "Order No");
             data.AddCoumnHeader(1, "Consignment No");
             data.AddCoumnHeader(2, "Address 1");
@@ -153,24 +168,21 @@ namespace BusinessTest
         [Test]
         public void FormatData_WithNullInput_ReturnsEmptyObject()
         {
-            var ordersCSVFileManager=new OrderCSVFileImportManager();
-            var orderCollection=ordersCSVFileManager.FormatData(null);
+            var orderCollection= manager.FormatOrderData(null);
             Assert.IsNotNull(orderCollection);
         }
 
         [Test]
         public void FormatData_WithEmptyInput_ReturnsEmptyObject()
         {
-            var ordersCSVFileManager = new OrderCSVFileImportManager();
-            var orderCollection = ordersCSVFileManager.FormatData(new Framework.Data.ImportData());
+            var orderCollection = manager.FormatOrderData(new Framework.Data.ImportData());
             Assert.IsNotNull(orderCollection);
         }
 
         [Test]
         public void FormatData_WithValidInput_ReturnsProperOrderCollection()
         {
-            var ordersCSVFileManager = new OrderCSVFileImportManager();
-            var orderCollection = ordersCSVFileManager.FormatData(data);
+            var orderCollection = manager.FormatOrderData(data);
             Assert.That(orderCollection, Is.Not.Null);
             var orderList = orderCollection.OrderList;
             Assert.That(orderList, Is.Not.Null);

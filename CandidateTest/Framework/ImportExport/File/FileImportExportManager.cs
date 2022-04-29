@@ -113,6 +113,10 @@ namespace Framework.ImportExport.File
             return movedFiles;
         }
 
-
+        protected string GetCompleteFilePath(string directoryPath,string fileNameWithOutExtension,string extension)
+        {
+            var completePath= Path.Combine(directoryPath, fileNameWithOutExtension)+ extension;
+            return completePath;
+        }
     }
 }

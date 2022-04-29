@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using Business.Entities;
 using Framework.Data;
 using Framework.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Business.Interfaces
 {
-    public interface IOrderImportManager:ICSVFileImportManager
+    public interface IOrderImportManager
     {
-        OrderCollection FormatData(ImportData data);
+        List<ItemKey> GetImportItemKeys();
+        ImportData ImportOrderData(ItemKey key);
+        OrderCollection FormatOrderData(ImportData data);
+        void AddProcessed(ItemKey key);
     }
 }
